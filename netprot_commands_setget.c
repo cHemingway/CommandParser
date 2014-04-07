@@ -1,5 +1,7 @@
 #include "netprot_commands_setget.h"
 #include "parse_assignment.h"
+#include "netprot_setget_params.h"
+#include "netprot_setget_params_list.h"
 #include <string.h>
 
 
