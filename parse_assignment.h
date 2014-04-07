@@ -1,3 +1,6 @@
+#ifndef PARSE_ASSIGNMENT_H
+#define PARSE_ASSIGNMENT_H
+
 /* Enum for possible types of returned value */
 enum valout_type {
 	VAL_NONE, /* No value found */
@@ -29,3 +32,6 @@ struct valout_t {
  *	   -1:	On Error
  */
 int parse_assignment(char *start, char *end, char **name, struct valout_t *valout);
+
+/* PARSE_ASSIGNMENT_H */
+#endif
