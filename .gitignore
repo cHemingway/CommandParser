@@ -3,3 +3,4 @@
 *.png
 test_parse_assignment.dSYM
 *.o
+*.dSYM
