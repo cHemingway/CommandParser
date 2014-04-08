@@ -10,6 +10,7 @@ netprot_command netprot_default_command_list[] = {
 	{"PING", netprot_cmd_ping},
 	{"SET", netprot_cmd_set},
 	{"GET", netprot_cmd_get},
+	{"RESET", netprot_cmd_reset},
 	{"",NULL} /* Terminate with null values */
 };
 
