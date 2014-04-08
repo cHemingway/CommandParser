@@ -4,3 +4,5 @@
 test_parse_assignment.dSYM
 *.o
 *.dSYM
+test_netprot_process_command
+test_parse_assignment
