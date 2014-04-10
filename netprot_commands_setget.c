@@ -16,7 +16,7 @@ static int find_object(const char *name, netprot_object **out) {
 	while (found==0) {
 		char *objname = netprot_objects[i].name;
 		/* Check for end of list */
-		if (objname == '\0') {
+		if (*objname == '\0') {
 			break;
 		}
 		/* Check name */
@@ -42,7 +42,7 @@ static int find_attr(const char *name, netprot_object *object, netprot_param **o
 	while (found==0) {
 		char *paramname = object->attrs[i].name;
 		/* Check for end of list */
-		if (paramname == '\0') {
+		if (*paramname == '\0') {
 			break;
 		}
 		/* Check name */
