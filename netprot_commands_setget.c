@@ -4,6 +4,7 @@
 #include "netprot_setget_params_list.h"
 #include <string.h>
 #include <ctype.h>
+#include <stdio.h>
 
 
 static int find_object(const char *name, netprot_object **out) {
@@ -129,6 +130,66 @@ int netprot_cmd_set(const char *in, char *out, int outlen) {
 }
 
 int netprot_cmd_get(const char *in, char *out, int outlen) {
+	char *ptr;
+	netprot_object *object;
+	netprot_param *attr;
+	int err;
+
+	/* Skip over whitespace */
+	ptr = (char *)in;
+	while(isspace(*ptr)) ptr++;
+
+	/* Search for object */
+	err = find_object(ptr, &object);
+	if (err) {
+		strncpy(out, "-ERR OBJECT NOT FOUND \r\n", outlen);
+		out[outlen] = '\0'; /* Null Terminate */
+		return -1;
+	}
+
+	/* Skip to attribute */
+	ptr += strlen(object->name);
+	while(isspace(*ptr)) ptr++;
+
+	/* Check if attribute name was given */
+	if (*ptr=='\0') { /* No attribute given, print them all */
+		int i = 0;
+		char *paramname, *outptr=out;
+		int out_remaining = outlen;
+		int paramlen;
+		/* Print + sign */
+		snprintf(outptr, out_remaining, "+");
+		out_remaining -= strlen("+");
+		outptr += strlen("+");
+		/* Loop over each param until empty string */
+		while ('\0' != *(paramname = object->attrs[i++].name) && (out_remaining)) {
+			snprintf(outptr, out_remaining, "%s, ", paramname);
+			paramlen = strlen(paramname) + sizeof(" ");
+			out_remaining -= paramlen;
+			outptr += paramlen;
+		}
+		/* Null teminate output */
+		out[outlen] = '\0';
+	}
+	else {	/* Attribute name given */
+		/* Search for attribute */
+		err = find_attr(ptr, object, &attr);
+		if (err) {
+			strncpy(out, "-ERR ATTR NOT FOUND \r\n", outlen);
+			out[outlen] = '\0'; /* Null Terminate */
+			return -1;
+		}
+
+		/* Output Value */
+		if (attr->type == PARAM_INT) {
+			snprintf(out,outlen,"+%d",attr->intval);
+			out[outlen] = '\0'; /* Null Terminate */
+		} 
+		else if (attr->type == PARAM_STR) {
+			snprintf(out,outlen,"+%s",attr->strval);
+			out[outlen] = '\0'; /* Null Terminate */
+		}
+	}
 
 
 	/* Success */
