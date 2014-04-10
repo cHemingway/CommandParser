@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
 		/* Process Commands */
 		err = netprot_process_command(netprot_default_command_list, in, out, outlen);
 		puts(out);
-		if (!err) {
+		if (err) {
 			printf("Error: netprot_process_command returned %d", err);
 		}
 
