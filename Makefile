@@ -31,4 +31,4 @@ parse_assignment.$(IMGTYPE): parse_assignment.rl
 	ragel -V -p parse_assignment.rl | dot $(DOTFLAGS) -T$(IMGTYPE) -o parse_assignment.$(IMGTYPE)
 
 clean:
-	rm parse_assignment.c parse_assignment.png *.o
+	rm -rf parse_assignment.c parse_assignment.png *.o *.dSYM
